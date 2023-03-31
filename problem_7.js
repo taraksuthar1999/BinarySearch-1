@@ -10,8 +10,42 @@
  * 
  */
 
+function sortedSearch(nums,target){
+    // find rotation index
+    let ans
+    const i = rotationFactor(nums)
+    if(i==0) ans = bs(nums,0,nums.length-1,target)
+    else if(target<nums[0]) ans = bs(nums,i,nums.length-1,target)
+    else ans = bs(0,i-1,target)
+    return ans
+}
 
+function bs(nums,low,high,target){
+    while(low<=high){
+        let mid = Math.floor((low+high)/2)
+        if(nums[mid]>target) high = mid - 1
+        else if (nums[mid]<target) low = mid + 1
+        else return mid
+    }
+    return -1
+}
 
+function rotationFactor(nums){
+    let i = 0
+    let j = nums.length-1
+    let k = 0
+    while(i<=j){
+        let mid = Math.floor((i+j)/2)
+        if(nums[mid]<= nums[0]){
+            k = mid
+            j = mid -1
+        }else{
+            i = mid + 1
+        }
+    }
+    return k
+}
 
+sortedSearch([4,5,6,7,0,1,2],0)
 
 //https://leetcode.com/problems/search-in-rotated-sorted-array/
